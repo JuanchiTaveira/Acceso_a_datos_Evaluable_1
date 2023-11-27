@@ -23,18 +23,7 @@ public class Main {
     public static void main(String[] args) {
 
         try {
-            URL url = new URL("https://dummyjson.com/products");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            StringBuffer stringBuffer = new StringBuffer();
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                stringBuffer.append(line);
-            }
-
-            JSONObject response = new JSONObject(stringBuffer.toString());
-            JSONArray products = response.getJSONArray("products");
+            JSONArray products = getProductsFromURL();
             Product product = new Product();
 
             for (int i = 0; i < products.length(); i++) {
@@ -51,6 +40,22 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Error en la coneccion I/O");
         }
+    }
+
+    private static JSONArray getProductsFromURL() throws IOException {
+        URL url = new URL("https://dummyjson.com/products");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuffer stringBuffer = new StringBuffer();
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            stringBuffer.append(line);
+        }
+
+        JSONObject response = new JSONObject(stringBuffer.toString());
+        JSONArray products = response.getJSONArray("products");
+        return products;
     }
 
     private static void insertIntoProductos(Product product) {

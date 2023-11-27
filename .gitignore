@@ -9,6 +9,7 @@ target/
 *.iml
 *.ipr
 .idea
+/.idea/sonarlint/issuestore/
 
 ### Eclipse ###
 .apt_generated
