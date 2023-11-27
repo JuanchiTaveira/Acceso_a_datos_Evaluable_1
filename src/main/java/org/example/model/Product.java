@@ -6,10 +6,10 @@ public class Product {
     private Integer id;
     private String title;
     private String description;
+    private Integer stock;
     private Double price;
     private Double discountPercentage;
     private Double rating;
-    private Integer stock;
     private String brand;
     private String category;
     private String thumbnail;
