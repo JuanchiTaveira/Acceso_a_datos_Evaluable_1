@@ -54,6 +54,43 @@ public class Main {
 
         insertIntoPedidos(pedido1);
         insertIntoPedidos(pedido2);
+
+        System.out.println("\n---------------------------- Empleados ----------------------------\n");
+        showAll(Employee.class);
+        System.out.println("\n---------------------------- Productos ----------------------------\n");
+        showAll(Product.class);
+        System.out.println("\n---------------------------- Pedidos ----------------------------\n");
+        showAll(Order.class);
+    }
+
+    private static <T> void showAll(T clazz) {
+
+        String table;
+
+        if (clazz == Employee.class)
+            table = SchemeDB.EMPLOYEES;
+        else if (clazz == Product.class)
+            table = SchemeDB.PRODUCTS;
+        else
+            table = SchemeDB.ORDERS;
+
+        try {
+            String query = String.format("SELECT * FROM " + table);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            ResultSetMetaData metaData = resultSet.getMetaData();
+
+            while (resultSet.next()) {
+                for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                    System.out.print(resultSet.getString(i) + "\t");
+                }
+                System.out.println();
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void setDescriptionAndTotalAmount(Order order) {
