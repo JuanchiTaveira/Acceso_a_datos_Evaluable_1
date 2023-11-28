@@ -3,6 +3,7 @@ package org.example;
 import org.example.database.DbHandler;
 import org.example.database.SchemeDB;
 import org.example.model.Employee;
+import org.example.model.Order;
 import org.example.model.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,10 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class Main {
 
@@ -45,8 +43,34 @@ public class Main {
         Employee empleado1 = new Employee("Juan", "Taveira", "juan@juan.com");
         Employee empleado2 = new Employee("Leo", "Messi", "messi@messi.com");
 
-        insertIntoEmployees(empleado1);
-        insertIntoEmployees(empleado2);
+        insertIntoEmpleados(empleado1);
+        insertIntoEmpleados(empleado2);
+
+        Order pedido1 = new Order(3);
+        Order pedido2 = new Order(5);
+
+        setDescriptionAndTotalAmount(pedido1);
+        setDescriptionAndTotalAmount(pedido2);
+
+        insertIntoPedidos(pedido1);
+        insertIntoPedidos(pedido2);
+    }
+
+    private static void setDescriptionAndTotalAmount(Order order) {
+        try {
+            String query = String.format("SELECT * FROM %s WHERE %s = ?", SchemeDB.PRODUCTS, SchemeDB.ID);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, order.getProductId());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                order.setDescription(resultSet.getString(SchemeDB.PRODUCT_DESCRIPTION));
+                order.setTotalAmount(resultSet.getDouble(SchemeDB.PRODUCT_PRICE));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static JSONArray getProductsFromURL() throws IOException {
@@ -82,13 +106,28 @@ public class Main {
         }
     }
 
-    private static void insertIntoEmployees(Employee employee) {
+    private static void insertIntoEmpleados(Employee employee) {
         try {
             String query = String.format("INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)", SchemeDB.EMPLOYEES, SchemeDB.EMPLOYEES_NAME, SchemeDB.EMPLOYEES_SURNAME, SchemeDB.EMPLOYEES_EMAIL);
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, employee.getName());
             statement.setString(2, employee.getSurname());
             statement.setString(3, employee.getEmail());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void insertIntoPedidos(Order order) {
+        try {
+            String query = String.format("INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)", SchemeDB.ORDERS, SchemeDB.ORDERS_PRODUCT_ID, SchemeDB.ORDERS_DESCRIPTION, SchemeDB.ORDERS_TOTAL_AMOUNT);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, order.getProductId());
+            statement.setString(2, order.getDescription());
+            statement.setDouble(3, order.getTotalAmount());
 
             statement.executeUpdate();
 

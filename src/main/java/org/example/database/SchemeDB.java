@@ -19,4 +19,10 @@ public interface SchemeDB {
     String EMPLOYEES_SURNAME = "apellidos";
     String EMPLOYEES_EMAIL = "correo";
 
+    //Orders table
+    String ORDERS = "pedidos";
+    String ORDERS_PRODUCT_ID = "id_producto";
+    String ORDERS_DESCRIPTION = "descripcion";
+    String ORDERS_TOTAL_AMOUNT = "precio_total";
+
 }
