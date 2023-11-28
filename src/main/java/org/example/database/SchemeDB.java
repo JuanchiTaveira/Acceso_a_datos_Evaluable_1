@@ -25,4 +25,7 @@ public interface SchemeDB {
     String ORDERS_DESCRIPTION = "descripcion";
     String ORDERS_TOTAL_AMOUNT = "precio_total";
 
+    //Products Fav table
+    String FAV_PRODUCTS = "productos_fav";
+    String FAV_PRODUCTS_ID_PRODUCT = "id_producto";
 }

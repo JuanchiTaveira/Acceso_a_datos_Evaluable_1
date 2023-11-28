@@ -14,6 +14,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -64,6 +66,51 @@ public class Main {
 
         System.out.println("\n---------------------------- Pedidos con precio < $600 ----------------------------\n");
         showProductsUnder600();
+
+        insertIntoProductsFavIfPriceMoreThan1000();
+    }
+
+    private static void insertIntoProductsFavIfPriceMoreThan1000() {
+        List<Product> products = getProductsUnder1000();
+
+        products.forEach(Main::insertIntoProductsFav);
+    }
+
+    private static void insertIntoProductsFav(Product product) {
+        try {
+            String query = String.format("INSERT INTO %s (%s) VALUES (?)", SchemeDB.FAV_PRODUCTS, SchemeDB.FAV_PRODUCTS_ID_PRODUCT);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, product.getId());
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static List<Product> getProductsUnder1000() {
+        List<Product> resultList = new ArrayList<>();
+
+        try {
+            String query = String.format("SELECT * FROM %s WHERE %s < 1000.0", SchemeDB.PRODUCTS, SchemeDB.PRODUCT_PRICE);
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
+
+            while (resultSet.next()) {
+                Product actualProduct = new Product();
+                actualProduct.setId(resultSet.getInt("id"));
+                actualProduct.setTitle(resultSet.getString("nombre"));
+                actualProduct.setDescription(resultSet.getString("descripcion"));
+                actualProduct.setStock(resultSet.getInt("cantidad"));
+                actualProduct.setPrice(resultSet.getDouble("precio"));
+
+                resultList.add(actualProduct);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return resultList;
     }
 
     private static void showProductsUnder600() {
