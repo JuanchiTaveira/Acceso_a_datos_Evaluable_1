@@ -61,6 +61,31 @@ public class Main {
         showAll(Product.class);
         System.out.println("\n---------------------------- Pedidos ----------------------------\n");
         showAll(Order.class);
+
+        System.out.println("\n---------------------------- Pedidos con precio < $600 ----------------------------\n");
+        showProductsUnder600();
+    }
+
+    private static void showProductsUnder600() {
+        try {
+            String query = String.format("SELECT * FROM %s WHERE %s < 600.0", SchemeDB.PRODUCTS, SchemeDB.PRODUCT_PRICE);
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
+            ResultSetMetaData metaData = resultSet.getMetaData();
+
+            printAllColumns(resultSet, metaData);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static void printAllColumns(ResultSet resultSet, ResultSetMetaData metaData) throws SQLException {
+        while (resultSet.next()) {
+            for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                System.out.print(resultSet.getString(i) + "\t");
+            }
+            System.out.println();
+        }
     }
 
     private static <T> void showAll(T clazz) {
@@ -81,12 +106,7 @@ public class Main {
 
             ResultSetMetaData metaData = resultSet.getMetaData();
 
-            while (resultSet.next()) {
-                for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                    System.out.print(resultSet.getString(i) + "\t");
-                }
-                System.out.println();
-            }
+            printAllColumns(resultSet, metaData);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
