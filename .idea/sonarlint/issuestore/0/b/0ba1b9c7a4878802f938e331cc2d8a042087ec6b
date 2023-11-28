@@ -1,11 +1,16 @@
 
-g	java:S112E"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ÊÏäÀ1
+g	java:S112Q"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8˜¦—¶Á1
+g	java:S112`"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8˜¦—¶Á1
+‚
+java:S1488@"`Immediately return this expression instead of assigning it to the temporary variable "products".(à°Óıÿÿÿÿ8š¦—¶Á1
 q
-java:S2095;"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(·Ç‚æøÿÿÿÿ8ÌÍ§Á1
+java:S2095G"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(·Ç‚æøÿÿÿÿ8Â¦—¶Á1
+q
+java:S2095X"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(·Ç‚æøÿÿÿÿ8Â¦—¶Á1
 
-java:S1149"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(ì­ŠÜúÿÿÿÿ8İÏäÀ1
+java:S11498"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(ì­ŠÜúÿÿÿÿ8Ä¦—¶Á1
+L	java:S106*"+Replace this use of System.out by a logger.(•Ú‹ÿøÿÿÿÿ8Ï¦—¶Á1
 M
-java:S1874"+Remove this use of "URL"; it is deprecated.(ÿ‰ï…ùÿÿÿÿ8çÏäÀ1
-L	java:S1064"+Replace this use of System.out by a logger.(•Ú‹ÿøÿÿÿÿ8øÏäÀ1
+java:S18745"+Remove this use of "URL"; it is deprecated.(ÿ‰ï…ùÿÿÿÿ8Ò¦—¶Á1
 L
-java:S1128"/Remove this unused import 'java.sql.Statement'.(ÏÖÔø8ûÍ§Á1
+java:S1128"/Remove this unused import 'java.sql.Statement'.(ÏÖÔø8ß¦—¶Á1

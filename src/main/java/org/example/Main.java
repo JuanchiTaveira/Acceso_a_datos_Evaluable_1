@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.database.DbHandler;
 import org.example.database.SchemeDB;
+import org.example.model.Employee;
 import org.example.model.Product;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,6 +41,12 @@ public class Main {
         } catch (IOException e) {
             System.out.println("Error en la coneccion I/O");
         }
+
+        Employee empleado1 = new Employee("Juan", "Taveira", "juan@juan.com");
+        Employee empleado2 = new Employee("Leo", "Messi", "messi@messi.com");
+
+        insertIntoEmployees(empleado1);
+        insertIntoEmployees(empleado2);
     }
 
     private static JSONArray getProductsFromURL() throws IOException {
@@ -73,6 +80,20 @@ public class Main {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    private static void insertIntoEmployees(Employee employee) {
+        try {
+            String query = String.format("INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)", SchemeDB.EMPLOYEES, SchemeDB.EMPLOYEES_NAME, SchemeDB.EMPLOYEES_SURNAME, SchemeDB.EMPLOYEES_EMAIL);
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, employee.getName());
+            statement.setString(2, employee.getSurname());
+            statement.setString(3, employee.getEmail());
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

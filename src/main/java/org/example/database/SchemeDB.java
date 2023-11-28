@@ -13,5 +13,10 @@ public interface SchemeDB {
     String PRODUCT_PRICE = "precio";
     String PRODUCT_QUANTITY = "cantidad";
 
+    //Employees table
+    String EMPLOYEES = "empleados";
+    String EMPLOYEES_NAME = "nombre";
+    String EMPLOYEES_SURNAME = "apellidos";
+    String EMPLOYEES_EMAIL = "correo";
 
 }
